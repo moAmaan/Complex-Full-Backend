@@ -14,6 +14,7 @@ import {
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
+import { addComment, deleteComment, getVideoComments, updateComment } from "../controllers/comment.controller.js";
 const router = Router();
 
 router.route("/register").post(
@@ -32,6 +33,9 @@ router.route("/register").post(
 
 router.route("/login").post(loginUser);
 router.route("/refresh-token").post(refreshAccessToken);
+router.route("/video-comments").get(getVideoComments);
+router.route("/update-comment").post(updateComment);
+router.route("/delete-comment").post(deleteComment);
 
 // secured routes
 
@@ -47,4 +51,5 @@ router
   .post(verifyJWT, upload.single("coverImage"), updateUserCoverImage);
 router.route("/c/:username").get(verifyJWT, getUserChannelProfile);
 router.route("/user-watchHisory").get(verifyJWT, getWatchHistory);
+router.route("/add-comment").post(verifyJWT,addComment);
 export default router;
